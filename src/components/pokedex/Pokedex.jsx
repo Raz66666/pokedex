@@ -137,9 +137,9 @@ class Pokedex extends Component {
                 
                   {this.nextPrev()}
                   <br/><hr/>
-
+                  
                 {
-                species.map((pokemon, index) => (  
+                this.state.pageOfItems.map((pokemon, index) => (  
                   
                   <div key={no(pokemon.url)}>
                     <div className="col-md-3 col-sm-4 col-xs-6">
