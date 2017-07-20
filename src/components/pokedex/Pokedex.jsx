@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
+import Pagination from './Pagination.jsx';
 import Pokemon from './Pokemon.jsx';
 import {
   BrowserRouter as Router,
@@ -16,10 +16,14 @@ class Pokedex extends Component {
       ability : [],
       allData : [],
       species : [],
+      pageOfItems: [],
       next : [],
       prev : [],
       perPage: 100
     }
+    
+    this.onChangePage = this.onChangePage.bind(this);
+    
   }
 
   getAllPokemonData(){
@@ -113,10 +117,15 @@ class Pokedex extends Component {
       )
   }
     
+    onChangePage(pageOfItems) {
+        // update state with new page of items
+        this.setState({ pageOfItems: pageOfItems });
+    }
+    
     render() {
       const species = this.state.species;
       const no = function(a){
-        return a.substr(49).split('/').join('')
+        return a.substr(32).split('/').join('')
       };
 
         return (
@@ -132,25 +141,26 @@ class Pokedex extends Component {
                 {
                 species.map((pokemon, index) => (  
                   
-                  <main key={index}>
+                  <div key={no(pokemon.url)}>
                     <div className="col-md-3 col-sm-4 col-xs-6">
                     <div className="panel panel-default">
                       <div className="panel-heading text-center"><h4>#{no(pokemon.url)}.{pokemon.name}</h4></div>
                       <div className="panel-body text-center">
-                        <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index+1}.png`}/>
+                        <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${no(pokemon.url)}.png`}/>
                       </div>
                       <div className="panel-footer">
                         <div className="clearfix">
                         <div className="btn-group btn-group-xs pull-right">
-                          <Link to={`pokemon/${index+1}`} className="btn btn-primary">detail</Link>
+                          <Link to={`pokemon/${no(pokemon.url)}`} className="btn btn-primary">detail</Link>
                         </div>
                         </div>
                       </div>
                     </div>
                     </div>
-                  </main>
+                  </div>
                   ))
               }
+              <Pagination items={this.state.species} onChangePage={this.onChangePage} />
               </div>
             )}/> 
             <Route exact path="/pokemon/:id" component={PokemonView}/>  
