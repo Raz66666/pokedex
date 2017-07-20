@@ -1,10 +1,8 @@
 # pokedex React app
 
-#Автор
+Автор: Razmik Galstyan
 
-Razmik Galstyan
-
-#Руководство по установке
+Руководство по установке
 
 Скачайте приложение с помощью `git clone`.
 
