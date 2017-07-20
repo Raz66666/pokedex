@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Pagination from './Pagination.jsx';
 import Pokemon from './Pokemon.jsx';
+import SearchPokemon from './SearchPokemon.jsx';
 import {
   BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom';
 
-class Pokedex extends Component {
+class PokemonsShow extends Component {
 
   constructor(props){
     super(props);
@@ -106,14 +107,17 @@ class Pokedex extends Component {
     }
 
       return (
-      <div className="pull-right">
-        <div className="btn-group btn-group-sm" role="group" aria-label="...">
-          <button onClick={this.getPrevPokemonData.bind(this)} disabled={prevDisabled} type="button" className="btn btn-primary">prev</button>
-          <button onClick={this.getNextPokemonData.bind(this)} disabled={nextDisabled} type="button" className="btn btn-primary">next</button>
+        <div className="col-lg-12">
+            <div className="pull-left">
+                <SearchPokemon />
+            </div>
+            <div className="pull-right">
+              <div className="btn-group btn-group-sm" role="group" aria-label="...">
+                <button onClick={this.getPrevPokemonData.bind(this)} disabled={prevDisabled} type="button" className="btn btn-primary">prev</button>
+                <button onClick={this.getNextPokemonData.bind(this)} disabled={nextDisabled} type="button" className="btn btn-primary">next</button>
+              </div>
+            </div>
         </div>
-      </div>
-      
-      
       )
   }
     
@@ -137,11 +141,10 @@ class Pokedex extends Component {
                 
                   {this.nextPrev()}
                   <br/><hr/>
-                  
                 {
                 this.state.pageOfItems.map((pokemon, index) => (  
                   
-                  <div key={no(pokemon.url)}>
+                  <div  className="searchable" key={no(pokemon.url)}>
                     <div className="col-md-3 col-sm-4 col-xs-6">
                     <div className="panel panel-default">
                       <div className="panel-heading text-center"><h4>#{no(pokemon.url)}.{pokemon.name}</h4></div>
@@ -178,12 +181,12 @@ const PokemonView = ({ match }) => {
   )
 }
 
-Pokedex.propTypes = {
+PokemonsShow.propTypes = {
   pokeApi: React.PropTypes.string,
 };
 
-Pokedex.defaultProps = {
+PokemonsShow.defaultProps = {
   pokeApi: 'http://pokeapi.co',
 }
 
-export default Pokedex;
+export default PokemonsShow;
