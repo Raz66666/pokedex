@@ -31,12 +31,6 @@ class Pokemon extends Component {
                     sprites: data.sprites,
                     types: data.types
                 });
-                console.log(this.state.allData);
-                console.log(this.state.forms);
-                console.log(this.state.abilities);
-                console.log(this.state.allData.weight);
-                console.log(this.state.sprites);
-                console.log(this.state.types);
             }.bind(this),
             error: function (xhr, status, err) {
                 this.setState({forms: null});
@@ -53,7 +47,6 @@ class Pokemon extends Component {
             success: function (data) {
                 this.setState({evolve: data.chain
                 });
-                console.log(this.state.evolve);
             }.bind(this),
             error: function (xhr, status, err) {
                 this.setState({forms: null});
