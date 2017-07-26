@@ -1,14 +1,18 @@
-import {Map} from 'immutable';
+import {all_pokemons} from './actions/PokemonsShowActions.js';
 
-function setState(state, newState) {
-    console.log(newState);
-    return state.merge(newState);
+function setState(newState) {
+    return newState;
 }
 
-export default function (state = Map(), action) {
+export default function (state = {}, action) {
     switch (action.type) {
-        case 'INITIAL_STATE':
-            return setState(state, action.state);
+        case 'INIT_POKEMONS':
+            console.log(all_pokemons(action.state));
+            return all_pokemons(action.state);
+        case 'ALL_POKEMONS':
+            console.log(action.type);
+            return next_pokemons(state);
     }
+        
     return state;
 }

@@ -15,18 +15,17 @@ const history = createHashHistory();
 
 const store = createStore(reducer);
 store.dispatch({
-    type: 'INITIAL_STATE',
+    type: 'INIT_POKEMONS',
     state: {
         ability: [],
         allData: [],
-        species: [1,5,7],
+        species: [],
         pageOfItems: [],
         next: [],
         prev: [],
         perPage: 100
     }
 });
-
 const RouteApp = () => (
     <div>
         <Router history={history}>

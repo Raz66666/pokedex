@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { bindActionCreators } from 'redux'
 import {connect} from 'react-redux';
 import Pagination from './Pagination.jsx';
 import Pokemon from './Pokemon.jsx';
 import SearchPokemon from './SearchPokemon.jsx';
+import * as PokemonsShowActions from './../../actions/PokemonsShowActions.js'
+
 import {
   BrowserRouter as Router,
   Route,
@@ -14,26 +17,9 @@ class PokemonsShow extends Component {
 
     constructor(props){
         super(props);
+        console.log(props.state);
         this.state = props.state;
         this.onChangePage = this.onChangePage.bind(this);
-
-    }
-
-    getAllPokemonData(){
-        $.ajax({
-            url: this.props.pokeApi+'/pokemon?limit='+this.state.perPage,
-            dataType: 'json',
-            cache: false,
-            success: function(data){
-                this.setState({species: data.results,
-                      next: data.next,
-                      prev: data.previous,
-                      allData: data});
-            }.bind(this),
-            error: function(xhr, status, err){
-                this.setState({species: null});
-            }.bind(this)
-        });
 
     }
 
@@ -72,7 +58,7 @@ class PokemonsShow extends Component {
     }
 
     componentDidMount(){
-      this.getAllPokemonData();
+        
     }
 
     getPokemonList(){
@@ -119,9 +105,15 @@ class PokemonsShow extends Component {
     }
     
     render() {
-      const species = this.state.species;
+      if(typeof this.state.species == 'undefined'){
+          this.state.species = [];
+      }
+      if(typeof this.state.pageOfItems == 'undefined'){
+          this.state.pageOfItems = [];
+      }
+      
       const no = function(a){
-        return a.substr(32).split('/').join('')
+        return a.substr(32).split('/').join('');
       };
 
         return (
@@ -166,20 +158,26 @@ class PokemonsShow extends Component {
 }
 
 function mapStateToProps (state) {
-  return {
-    state: {
-        ability: state.get('ability'),
-        allData: state.get('allData'),
-        species: state.get('species'),
-        pageOfItems: state.get('pageOfItems'),
-        next: state.get('next'),
-        prev: state.get('prev'),
-        perPage: state.get('perPage')
+    console.log(state);
+    return {
+        state: {
+            ability: state.state.ability,
+            allData: state.state.allData,
+            species: state.state.species,
+            pageOfItems: state.state.pageOfItems,
+            next: state.state.next,
+            prev: state.state.prev,
+            perPage: state.state.perPage
+        }
     }
-  }
 }
 
-export default connect(mapStateToProps)(PokemonsShow)
+function mapDispatchToProps(dispatch) {
+  return {
+    PokemonsShowActions: bindActionCreators(PokemonsShowActions, dispatch)
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(PokemonsShow)
 
 const PokemonView = ({ match }) => {
     return (
